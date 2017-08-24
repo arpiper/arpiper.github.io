@@ -10,7 +10,8 @@ body {
   grid-template-areas: 
     "left header right"
     "left main right"
-    "left footer right"
+    "left footer right";
+  color: #424242;
 }
 
 nav {
@@ -26,6 +27,7 @@ nav ul, footer ul {
 
 nav ul li, footer ul li {
   display: inline;
+  margin-right: 20px;
 }
 
 a {
