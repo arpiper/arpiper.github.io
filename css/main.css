@@ -50,6 +50,19 @@ a:hover {
   grid-area: main;
 }
 
+.block a {
+  display: inline-block;
+}
+
+.block h4 {
+  margin: 0;
+  text-decoration: underline;
+}
+
+.block {
+  border-bottom: 1px solid #424242;
+}
+
 footer {
   grid-area: footer;
   border-top: 2px solid #4CAF50;
