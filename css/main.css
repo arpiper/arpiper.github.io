@@ -81,8 +81,9 @@ footer p {
       "main"
       "footer";
   }
-  nav, footer {
-    text-align: center;
+  nav ul, footer ul {
+    display: flex;
+    justify-content: space-evenly;
   }
   nav ul li, footer ul li {
     margin: 0;
