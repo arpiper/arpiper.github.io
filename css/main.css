@@ -88,4 +88,7 @@ footer p {
   nav ul li, footer ul li {
     margin: 0;
   }
+  footer p {
+    text-align: center;
+  }
 }
