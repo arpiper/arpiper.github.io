@@ -88,6 +88,12 @@ footer p {
   nav ul li, footer ul li {
     margin: 0;
   }
+  .container {
+    padding: 0 5%;
+  }
+  .about h3 {
+    margin-bottom: 0;
+  }
   footer p {
     text-align: center;
   }
