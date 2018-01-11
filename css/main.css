@@ -81,7 +81,10 @@ footer p {
       "main"
       "footer";
   }
-}
-
-@media screen and (max-width: 720px) {
+  nav, footer {
+    text-align: center;
+  }
+  nav ul li, footer ul li {
+    margin: 0;
+  }
 }
