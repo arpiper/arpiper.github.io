@@ -9,7 +9,9 @@ html, body {
   padding: 0;
 }
 
-body {
+.main-container {
+  height: 100%;
+  width: 100%;
   display: grid;
   font-family: "Helvetica", "Arial", "Sans-serif";
   grid-template-columns: 20% 60% 20%;
@@ -74,7 +76,7 @@ footer p {
 }
 
 @media screen and (max-width: 480px) {
-  body {
+  .main-container {
     grid-template-columns: 100%;
     grid-template-areas: 
       "header"
