@@ -123,6 +123,7 @@ var AppModule = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__models_bill__ = __webpack_require__("../../../../../src/app/models/bill.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__services_bill_service__ = __webpack_require__("../../../../../src/app/services/bill.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__services_person_service__ = __webpack_require__("../../../../../src/app/services/person.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__services_utility_service__ = __webpack_require__("../../../../../src/app/services/utility.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -132,6 +133,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+
 
 
 
@@ -150,7 +152,7 @@ var BillDetailInlineComponent = (function () {
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
             moduleId: module.i,
             selector: 'bill-detail-inline-cmp',
-            template: "\n    <div class=\"bill-details\">\n      <a routerLink=\"/bills/{{ bill.id }}\">\n        <div class=\"left\">\n          <span class=\"paid-to\">\n            <a routerLink=\"/utility/{{ bill.paid_to.id }}\" >\n              {{ bill.paid_to.name | titlecase }}\n            </a>\n          </span>\n          <span class=\"due-date\">\n            Due: {{ bill.due_date }}\n          </span>\n        </div>\n        <span class=\"amount right\">\n          {{ bill.amount | currency:'USD' }}\n        </span>\n      </a>\n    </div>\n  ",
+            template: "\n    <div class=\"bill-details\">\n      <a routerLink=\"/bills/{{ bill.id }}\">\n        <div class=\"left\">\n          <span class=\"paid-to\">\n            <a routerLink=\"/utility/{{ bill.paid_to.id }}\" >\n              {{ bill.paid_to.name | titlecase }}\n            </a>\n          </span>\n          <span class=\"due-date\">\n            Due: {{ bill.due_date }}\n          </span>\n        </div>\n        <div class=\"amount right\">\n          <div>\n            <span>Bill Total Amount: {{ bill.amount | currency:'USD' }}</span>\n          </div>\n          <div >\n            <span>Bill Split Amount: {{ bill.split_amount | currency: 'USD' }}</span>\n          </div>\n        </div>\n      </a>\n    </div>\n  ",
             styles: ["\n    :host {\n      flex: 1;\n    }\n    .bill-details {\n      display: flex;\n      flex: 1 1 100%;\n      margin: 5px 0;\n    }\n    .bill-details > a {\n      text-decoration: none;\n      display: flex;\n      background-color: var(--color-gray-light);\n      color: var(--color-gray-dark);\n      justify-content: space-between;\n      padding: 10px;\n      width: 100%;\n    }\n    .bill-details > a:hover {\n      background-color: rgba(0,0,0,0.25);\n    }\n  "],
         })
     ], BillDetailInlineComponent);
@@ -158,11 +160,12 @@ var BillDetailInlineComponent = (function () {
 }());
 
 var BillDetailComponent = (function () {
-    function BillDetailComponent(route, router, billService, personService) {
+    function BillDetailComponent(route, router, billService, personService, utilityService) {
         this.route = route;
         this.router = router;
         this.billService = billService;
         this.personService = personService;
+        this.utilityService = utilityService;
     }
     BillDetailComponent.prototype.ngOnInit = function () {
         this.getBill();
@@ -188,6 +191,10 @@ var BillDetailComponent = (function () {
             i = this.bill.paid_partial_ids.indexOf(person.id);
             this.bill.paid_partial_ids.splice(i, 1);
         }
+        if (this.bill.paid_partial.length === this.bill.split_by.length) {
+            this.bill.paid_full = true;
+            this.utilityService.updatePayments(this.bill.amount, this.bill.paid_to.id);
+        }
         this.billService.updateBill(this.bill);
         this.personService.updatePaymentsMade(this.bill.split_amount, person.id);
     };
@@ -202,13 +209,14 @@ var BillDetailComponent = (function () {
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
             moduleId: module.i,
             selector: 'bill-detail-cmp',
-            template: "\n    <div class=\"bill-details\">\n      <div class=\"paid-to\">\n        <a routerLink=\"/utilities/{{ bill?.paid_to.id }}\"> \n          {{ bill?.paid_to.name | titlecase }}\n        </a>\n      </div>\n      <div class=\"amount\">\n        {{ bill?.amount | currency:'USD' }}\n      </div>\n      <div class=\"split-by\">\n        <h4>Split By:</h4>\n        <div *ngFor=\"let person of bill?.split_by\">\n          <div *ngIf=\"bill.paid_partial_ids.includes(person.id); then paid else unpaid\">\n          </div>\n          <ng-template #paid>Paid</ng-template>\n          <ng-template #unpaid>\n            <span class=\"unpaid\">\n              <button class=\"mark-person-paid toggle alert\" (click)=\"togglePersonPaid(person)\">\n                Unpaid\n              </button>\n            </span>\n          </ng-template>\n          <a routerLink=\"/person/{{ person.id }}\">\n            <span>{{ person.name }}</span>\n          </a>\n        </div>\n      </div>\n      <div class=\"notes\">\n        <h4>Bill Notes:</h4>\n        <p>{{ bill?.notes }}</p>\n      </div>\n      <div class=\"delete\">\n        <span>\n          <button class=\"alert\" (click)=\"deleteBill()\">Delete</button>\n        </span>\n      </div>\n    </div>\n  ",
-            styles: []
+            template: "\n    <div class=\"bill-details\">\n      <div class=\"paid-to\">\n        <h3>\n          <a routerLink=\"/utilities/{{ bill?.paid_to.id }}\"> \n            {{ bill?.paid_to.name | titlecase }}\n          </a>\n        </h3>\n      </div>\n      <div class=\"amount\">\n        <span class=\"label\">Total Amount Due: </span>\n        <span class=\"value\">{{ bill?.amount | currency:'USD' }}</span>\n      </div>\n      <div class=\"due-date\">\n        <span class=\"label\">Bill Due: </span>\n        <span class=\"value\">{{ bill?.due_date }}</span>\n      </div>\n      <div class=\"split-by\">\n        <h4>Split By:</h4>\n        <div *ngFor=\"let person of bill?.split_by\">\n          <div *ngIf=\"bill.paid_partial_ids.includes(person.id); then paid else unpaid\">\n          </div>\n          <a routerLink=\"/person/{{ person.id }}\">\n            <span>{{ person.name }}</span>\n          </a>\n          <ng-template #paid>\n            <span class=\"\">\n              <button class=\"unmark-person-paid\" disabled>\n                <span class=\"checkmark\"></span>\n              </button>\n            </span>\n            <span class=\"person-paid\">Paid</span>\n          </ng-template>\n          <ng-template #unpaid>\n            <span class=\"person-unpaid\">\n              <button class=\"mark-person-paid toggle alert\" (click)=\"togglePersonPaid(person)\">\n                Mark As Paid\n              </button>\n            </span>\n            <span>Unpaid</span>\n          </ng-template>\n        </div>\n      </div>\n      <div *ngIf=\"bill?.notes\" class=\"notes\">\n        <h4>Bill Notes:</h4>\n        <p>{{ bill?.notes }}</p>\n      </div>\n      <div class=\"delete right\">\n        <span class=\"\">\n          <button class=\"alert\" (click)=\"deleteBill()\">Delete</button>\n        </span>\n      </div>\n    </div>\n  ",
+            styles: ["\n    :host {\n      width: 100%;\n    }\n    .paid-to {\n      font-weight: bold;\n    }\n    .amount .label,\n    .amount .value {\n      font-size: 14pt;\n      font-weight: bold;\n    }\n    .amount .value {\n      color: var(--color-red);\n    }\n  "]
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */],
             __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */],
             __WEBPACK_IMPORTED_MODULE_3__services_bill_service__["a" /* BillService */],
-            __WEBPACK_IMPORTED_MODULE_4__services_person_service__["b" /* PersonService */]])
+            __WEBPACK_IMPORTED_MODULE_4__services_person_service__["b" /* PersonService */],
+            __WEBPACK_IMPORTED_MODULE_5__services_utility_service__["b" /* UtilityService */]])
     ], BillDetailComponent);
     return BillDetailComponent;
 }());
@@ -382,15 +390,27 @@ var BillComponent = (function () {
     function BillComponent(billService, router) {
         this.billService = billService;
         this.router = router;
+        this.paid_bills = [];
+        this.unpaid_bills = [];
         this.showForm = false;
     }
     BillComponent.prototype.ngOnInit = function () {
+        this.paid_bills;
+        this.unpaid_bills;
         this.getBills();
     };
     BillComponent.prototype.getBills = function () {
         var _this = this;
         this.billService.getBills().then(function (bills) {
-            _this.bills = bills;
+            //this.bills = bills;
+            bills.forEach(function (v, i) {
+                if (v.paid_full) {
+                    _this.paid_bills.push(v);
+                }
+                else {
+                    _this.unpaid_bills.push(v);
+                }
+            });
         });
     };
     BillComponent.prototype.addBill = function () {
@@ -398,7 +418,7 @@ var BillComponent = (function () {
     };
     BillComponent.prototype.updateBills = function (bill) {
         if (bill) {
-            this.bills.push(bill);
+            this.unpaid_bills.push(bill);
         }
         this.showForm = false;
     };
@@ -411,7 +431,7 @@ var BillComponent = (function () {
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
             moduleId: module.i,
             selector: 'bill-cmp',
-            template: "\n    <div class=\"bills-header\">\n      <h3>Bills</h3>\n      <div class=\"add-bill\">\n        <span>\n          <button (click)=\"addBill()\">Add New Bill</button>\n        </span>\n      </div>\n    </div>\n    <div *ngIf=\"bills?.length === 0; then no_bills else list_bills\"></div>\n    <ng-template #no_bills>\n      <p>There are no active bills.</p>\n    </ng-template>\n    <ng-template #list_bills>\n      <div class=\"bills-list\" >\n        <bill-detail-inline-cmp *ngFor=\"let bill of bills\" [bill]=\"bill\">\n        </bill-detail-inline-cmp>\n      </div>\n    </ng-template>\n    <bill-form *ngIf=\"showForm\" (addedBill)=\"updateBills($event)\" (click)=\"closeForm($event)\"></bill-form>\n  ",
+            template: "\n    <div class=\"bills-header\">\n      <h3>Bills</h3>\n      <div class=\"add-bill\">\n        <span>\n          <button (click)=\"addBill()\">Add New Bill</button>\n        </span>\n      </div>\n    </div>\n    <div *ngIf=\"unpaid_bills?.length === 0; then no_bills else list_bills\"></div>\n    <ng-template #no_bills>\n      <p>There are no active bills.</p>\n    </ng-template>\n    <ng-template #list_bills>\n      <div class=\"bills-list\" >\n        <h3>Currently Unpaid Bills</h3>\n        <bill-detail-inline-cmp *ngFor=\"let bill of unpaid_bills\" [bill]=\"bill\">\n        </bill-detail-inline-cmp>\n      </div>\n    </ng-template>\n    <div class=\"bills-list\">\n      <h3>Paid Bills</h3>\n      <bill-detail-inline-cmp *ngFor=\"let bill of paid_bills\" [bill]=\"bill\">\n      </bill-detail-inline-cmp>\n    </div>\n    <bill-form *ngIf=\"showForm\" (addedBill)=\"updateBills($event)\" (click)=\"closeForm($event)\"></bill-form>\n  ",
             styles: ["\n    :host {\n      display: flex;\n      flex: 1 0 100%;\n      flex-direction: column;\n    }\n    .bills-header {\n      display: flex;\n      width: 100%;\n      justify-content: space-between;\n      align-items: center;\n    }\n  "],
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__services_bill_service__["a" /* BillService */],
@@ -733,17 +753,18 @@ var PersonDetailComponent = (function () {
     };
     PersonDetailComponent.prototype.getPerson = function () {
         var _this = this;
-        this.personService.getPerson(this.id).then(function (res) {
-            if (res.status_code === 404) {
+        this.personService.getPerson(this.id).then(function (response) {
+            if (response.status_code === 404) {
                 _this.router.navigate(["/404"]);
             }
-            _this.person = res;
+            _this.person = response;
         });
     };
     PersonDetailComponent.prototype.getActiveBills = function () {
         var _this = this;
-        this.billService.getBills().then(function (res) {
-            _this.bills = res.filter(function (v) { return v.split_by_ids.includes(_this.id); });
+        this.billService.getBills().then(function (response) {
+            _this.unpaid_bills = response.filter(function (v) { return (v.split_by_ids.includes(_this.id) && !v.paid_partial_ids.includes(_this.id)); });
+            _this.paid_bills = response.filter(function (v) { return (v.split_by_ids.includes(_this.id) && v.paid_partial_ids.includes(_this.id)); });
         });
     };
     PersonDetailComponent.prototype.personNotFound = function () {
@@ -752,8 +773,8 @@ var PersonDetailComponent = (function () {
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
             moduleId: module.i,
             selector: 'person-detail-cmp',
-            template: "\n    <div class=\"person-details\">\n      <h3>{{ person?.name }}</h3>\n      <span class=\"total-paid\">\n        {{ person?.payments_made | currency:'USD' }}\n      </span>\n    </div>\n    <div class=\"active-bills\" *ngIf=\"bills\">\n      <h4>Currently Unpaid Bills</h4>\n      <div *ngFor=\"let bill of bills\" class=\"bill-detail\">\n        <bill-detail-inline-cmp [bill]=\"bill\">\n        </bill-detail-inline-cmp>\n      </div>\n    </div>\n  ",
-            styles: []
+            template: "\n    <div class=\"person-details\">\n      <h3>{{ person?.name }}</h3>\n      <span class=\"total-paid right\">\n        <span>Total Paid</span>\n        <span>{{ person?.payments_made | currency:'USD' }}</span>\n      </span>\n    </div>\n    <div class=\"active-bills\" *ngIf=\"unpaid_bills\">\n      <h4>Currently Unpaid Bills</h4>\n      <div *ngFor=\"let bill of unpaid_bills\" class=\"bill-detail\">\n        <bill-detail-inline-cmp [bill]=\"bill\">\n        </bill-detail-inline-cmp>\n      </div>\n    </div>\n    <div class=\"paid-bills\" *ngIf=\"paid_bills\">\n      <span>\n        <h4>Paid Bills</h4>\n        <span class=\"chevron-up\"></span>\n      </span>\n      <div *ngFor=\"let bill of paid_bills\" class=\"bill-detail\">\n        <bill-detail-inline-cmp [bill]=\"bill\">\n        </bill-detail-inline-cmp>\n      </div>\n    </div>\n  ",
+            styles: ["\n    .person-details {\n      display: flex;\n      align-items: center;\n      justify-content: space-between;\n    }\n  "]
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */],
             __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */],
@@ -775,8 +796,9 @@ var PersonDetailComponent = (function () {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return UtilityDetailComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__models_utility__ = __webpack_require__("../../../../../src/app/models/utility.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__services_utility_service__ = __webpack_require__("../../../../../src/app/services/utility.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__services_bill_service__ = __webpack_require__("../../../../../src/app/services/bill.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__models_utility__ = __webpack_require__("../../../../../src/app/models/utility.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__services_utility_service__ = __webpack_require__("../../../../../src/app/services/utility.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -790,6 +812,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var UtilityComponent = (function () {
     function UtilityComponent(utilityService) {
         this.utilityService = utilityService;
@@ -797,7 +820,7 @@ var UtilityComponent = (function () {
     }
     UtilityComponent.prototype.ngOnInit = function () {
         this.getUtilities();
-        this.addUtilityObj = new __WEBPACK_IMPORTED_MODULE_2__models_utility__["a" /* Utility */]({ name: '' });
+        this.addUtilityObj = new __WEBPACK_IMPORTED_MODULE_3__models_utility__["a" /* Utility */]({ name: '' });
     };
     UtilityComponent.prototype.addUtility = function (name) {
         if (name.length !== 0) {
@@ -828,19 +851,21 @@ var UtilityComponent = (function () {
             template: "\n    <div class=\"utilities-header\">\n      <h3>Utility</h3>\n      <div class=\"add-utility\">\n        <span *ngIf=\"no_name\" class=\"alert\">\n          No name entered\n        </span>\n        <input #utilityName type=\"text\" placeholder=\"Utility\"\n          (keyup.enter)=\"addUtility(utilityName.value); utilityName.value=''\">\n        <button (click)=\"addUtility(utilityName.value); utilityName.value=''\" >Add Utility</button>\n      </div>\n    </div>\n    <div class=\"utilities\">\n      <div *ngFor=\"let utility of utilities\">\n        <a routerLink=\"/utilities/{{ utility.id }}\">{{ utility.name }}</a>\n      </div>\n    </div>\n\n  ",
             styles: ["\n    :host {\n      width: 100%;\n      flex: 1 1 100%;\n    }\n    .utilities-header,\n    .add-utility {\n      display: flex;\n      justify-content: space-between;\n      align-items: center;\n    }\n    .utilities-header h3 {\n      flex: 2;\n    }\n    .add-utility {\n      flex: 3;\n      justify-content: space-evenly;\n    }\n  "],
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_3__services_utility_service__["b" /* UtilityService */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_4__services_utility_service__["b" /* UtilityService */]])
     ], UtilityComponent);
     return UtilityComponent;
 }());
 
 var UtilityDetailComponent = (function () {
-    function UtilityDetailComponent(route, router, utilityService) {
+    function UtilityDetailComponent(route, router, utilityService, billService) {
         this.route = route;
         this.router = router;
         this.utilityService = utilityService;
+        this.billService = billService;
     }
     UtilityDetailComponent.prototype.ngOnInit = function () {
         this.getUtility();
+        this.getBills();
     };
     UtilityDetailComponent.prototype.getUtility = function () {
         var _this = this;
@@ -852,16 +877,23 @@ var UtilityDetailComponent = (function () {
             _this.utility = res;
         });
     };
+    UtilityDetailComponent.prototype.getBills = function () {
+        var _this = this;
+        this.billService.getBills().then(function (response) {
+            _this.unpaid_bills = response.filter(function (v) { return (v.id === _this.utility.id && !v.paid_full); });
+        });
+    };
     UtilityDetailComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
             moduleId: module.i,
             selector: 'utility-detail-cmp',
-            template: "\n    <div class=\"utility-details\">\n      <h3>{{ utility?.name }}</h3>\n    </div>\n  ",
-            styles: [],
+            template: "\n    <div class=\"utility-details\">\n      <h2>{{ utility?.name }}</h2>\n      <span>\n        <span class=\"label\">Total Payments</span>\n        <span class=\"value\">{{ utility?.payments | currency: 'USD' }}</span>\n      </span>\n    </div>\n    <div class=\"active-bills\">\n      <h3>Currently Unpaid Bills</h3>\n      <div *ngFor=\"let bill of unpaid_bills\" class=\"bill-detail\">\n        <bill-detail-inline-cmp [bill]=\"bill\">\n        </bill-detail-inline-cmp>\n      </div>\n    </div>\n  ",
+            styles: ["\n    :host {\n      width: 100%;\n    }\n  "],
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */],
             __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */],
-            __WEBPACK_IMPORTED_MODULE_3__services_utility_service__["b" /* UtilityService */]])
+            __WEBPACK_IMPORTED_MODULE_4__services_utility_service__["b" /* UtilityService */],
+            __WEBPACK_IMPORTED_MODULE_2__services_bill_service__["a" /* BillService */]])
     ], UtilityDetailComponent);
     return UtilityDetailComponent;
 }());
@@ -911,7 +943,7 @@ var Person = (function () {
     function Person(data) {
         this.id = data.id;
         this.name = data.name;
-        this.payments_made = 0;
+        this.payments_made = (data.payments_made) ? data.payments_made : 0;
     }
     return Person;
 }());
@@ -926,11 +958,10 @@ var Person = (function () {
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Utility; });
 var Utility = (function () {
-    // payments_made: number;
     function Utility(data) {
         this.id = data.id;
         this.name = data.name;
-        //payments_made = 0;
+        this.payments = (data.payments) ? data.payments : 0;
     }
     return Utility;
 }());
@@ -1293,6 +1324,69 @@ var BillService = (function () {
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return getLocalStorage; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return saveLocalStorage; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__models_person__ = __webpack_require__("../../../../../src/app/models/person.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__models_utility__ = __webpack_require__("../../../../../src/app/models/utility.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__models_bill__ = __webpack_require__("../../../../../src/app/models/bill.ts");
+
+
+
+/*
+ * DEMO Data
+ */
+var utilities = [
+    new __WEBPACK_IMPORTED_MODULE_1__models_utility__["a" /* Utility */]({ name: "Internet Company", id: 1, payments: 50 }),
+    new __WEBPACK_IMPORTED_MODULE_1__models_utility__["a" /* Utility */]({ name: "Water Company", id: 2 }),
+    new __WEBPACK_IMPORTED_MODULE_1__models_utility__["a" /* Utility */]({ name: "Electric Company", id: 3 }),
+];
+var persons = [
+    new __WEBPACK_IMPORTED_MODULE_0__models_person__["a" /* Person */]({ name: "Roommate 1", id: 1, payments_made: 16.67 }),
+    new __WEBPACK_IMPORTED_MODULE_0__models_person__["a" /* Person */]({ name: "Roommate 2", id: 2, payments_made: 16.67 }),
+    new __WEBPACK_IMPORTED_MODULE_0__models_person__["a" /* Person */]({ name: "Roommate 3", id: 3, payments_made: 16.67 }),
+];
+var bills = [
+    new __WEBPACK_IMPORTED_MODULE_2__models_bill__["a" /* Bill */]({
+        id: 1,
+        due_date: "2/27/2018",
+        amount: 50,
+        paid_to: utilities[0],
+        split_by: persons,
+        paid_full: true,
+        paid_partial: persons,
+        paid_date: "2/26/2018",
+        notes: "This is an internet bill",
+    }),
+    new __WEBPACK_IMPORTED_MODULE_2__models_bill__["a" /* Bill */]({
+        id: 2,
+        due_date: "4/7/2018",
+        amount: 150,
+        paid_to: utilities[2],
+        split_by: persons,
+    }),
+    new __WEBPACK_IMPORTED_MODULE_2__models_bill__["a" /* Bill */]({
+        id: 3,
+        due_date: "3/20/2018",
+        amount: 83,
+        paid_to: utilities[1],
+        split_by: persons,
+    }),
+    new __WEBPACK_IMPORTED_MODULE_2__models_bill__["a" /* Bill */]({
+        id: 4,
+        due_date: "5/17/2018",
+        amount: 282,
+        paid_to: utilities[1],
+        split_by: persons,
+    }),
+    new __WEBPACK_IMPORTED_MODULE_2__models_bill__["a" /* Bill */]({
+        id: 5,
+        due_date: "3/27/2018",
+        amount: 50,
+        paid_to: utilities[0],
+        split_by: persons,
+    })
+];
+saveLocalStorage("ngpersons", persons);
+saveLocalStorage("ngutilities", utilities);
+saveLocalStorage("ngbills", bills);
 function getLocalStorage(key) {
     var ls = localStorage.getItem(key);
     if (!ls) {
@@ -1553,8 +1647,22 @@ var UtilityService = (function () {
                 .catch(function (res) { return _this.handleError(res); });
         }
     };
-    //updatePaymentsMade(val: number, id: number): Promise<any> {
-    //}
+    UtilityService.prototype.updatePayments = function (val, id) {
+        var _this = this;
+        if (this.local) {
+            var utilities = Object(__WEBPACK_IMPORTED_MODULE_5__local_service__["a" /* getLS */])('ngutilities');
+            var idx = utilities.findIndex(function (v) { return v.id === id; });
+            utilities[idx].payments += val;
+            Object(__WEBPACK_IMPORTED_MODULE_5__local_service__["b" /* saveLS */])('ngutilities', utilities);
+            return Promise.resolve(utilities);
+        }
+        else {
+            return this.http.put(this.url + "/utilities/" + id, JSON.stringify(val), { headers: this.headers })
+                .toPromise()
+                .then(function (response) { return response.json(); })
+                .catch(function (response) { return _this.handleError(response); });
+        }
+    };
     UtilityService.prototype.deleteUtility = function (id) {
         var _this = this;
         if (this.local) {
