@@ -66,11 +66,12 @@ var AppComponent = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__ = __webpack_require__("../../../platform-browser/esm5/platform-browser.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_http__ = __webpack_require__("../../../http/esm5/http.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_home_component__ = __webpack_require__("../../../../../src/app/components/home.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_notfound_component__ = __webpack_require__("../../../../../src/app/components/notfound.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modules_bill_module__ = __webpack_require__("../../../../../src/app/modules/bill.module.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__routes_app_routing_module__ = __webpack_require__("../../../../../src/app/routes/app-routing.module.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__app_component__ = __webpack_require__("../../../../../src/app/app.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_platform_browser_animations__ = __webpack_require__("../../../platform-browser/esm5/animations.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_home_component__ = __webpack_require__("../../../../../src/app/components/home.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_notfound_component__ = __webpack_require__("../../../../../src/app/components/notfound.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__modules_bill_module__ = __webpack_require__("../../../../../src/app/modules/bill.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__routes_app_routing_module__ = __webpack_require__("../../../../../src/app/routes/app-routing.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__app_component__ = __webpack_require__("../../../../../src/app/app.component.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -85,24 +86,26 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
+
 var AppModule = (function () {
     function AppModule() {
     }
     AppModule = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["I" /* NgModule */])({
             declarations: [
-                __WEBPACK_IMPORTED_MODULE_7__app_component__["a" /* AppComponent */],
-                __WEBPACK_IMPORTED_MODULE_3__components_home_component__["a" /* HomeComponent */],
-                __WEBPACK_IMPORTED_MODULE_4__components_notfound_component__["a" /* NotFoundComponent */],
+                __WEBPACK_IMPORTED_MODULE_8__app_component__["a" /* AppComponent */],
+                __WEBPACK_IMPORTED_MODULE_4__components_home_component__["a" /* HomeComponent */],
+                __WEBPACK_IMPORTED_MODULE_5__components_notfound_component__["a" /* NotFoundComponent */],
             ],
             imports: [
                 __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["a" /* BrowserModule */],
-                __WEBPACK_IMPORTED_MODULE_6__routes_app_routing_module__["a" /* AppRoutingModule */],
+                __WEBPACK_IMPORTED_MODULE_7__routes_app_routing_module__["a" /* AppRoutingModule */],
+                __WEBPACK_IMPORTED_MODULE_3__angular_platform_browser_animations__["a" /* BrowserAnimationsModule */],
                 __WEBPACK_IMPORTED_MODULE_2__angular_http__["c" /* HttpModule */],
-                __WEBPACK_IMPORTED_MODULE_5__modules_bill_module__["a" /* BillModule */],
+                __WEBPACK_IMPORTED_MODULE_6__modules_bill_module__["a" /* BillModule */],
             ],
             providers: [],
-            bootstrap: [__WEBPACK_IMPORTED_MODULE_7__app_component__["a" /* AppComponent */]]
+            bootstrap: [__WEBPACK_IMPORTED_MODULE_8__app_component__["a" /* AppComponent */]]
         })
     ], AppModule);
     return AppModule;
@@ -152,7 +155,7 @@ var BillDetailInlineComponent = (function () {
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
             moduleId: module.i,
             selector: 'bill-detail-inline-cmp',
-            template: "\n    <div class=\"bill-details\">\n      <a routerLink=\"/bills/{{ bill.id }}\">\n        <div class=\"left\">\n          <span class=\"paid-to\">\n            <a routerLink=\"/utility/{{ bill.paid_to.id }}\" >\n              {{ bill.paid_to.name | titlecase }}\n            </a>\n          </span>\n          <span class=\"due-date\">\n            Due: {{ bill.due_date }}\n          </span>\n        </div>\n        <div class=\"amount right\">\n          <div>\n            <span>Bill Total Amount: {{ bill.amount | currency:'USD' }}</span>\n          </div>\n          <div >\n            <span>Bill Split Amount: {{ bill.split_amount | currency: 'USD' }}</span>\n          </div>\n        </div>\n      </a>\n    </div>\n  ",
+            template: "\n    <div class=\"bill-details\">\n      <a routerLink=\"/bills/{{ bill.id }}\">\n        <div class=\"left\">\n          <span class=\"paid-to\">\n            <a routerLink=\"/utilities/{{ bill.paid_to.id }}\" >\n              {{ bill.paid_to.name | titlecase }}\n            </a>\n          </span>\n          <span class=\"due-date\">\n            Due: {{ bill.due_date }}\n          </span>\n        </div>\n        <div class=\"amount right\">\n          <div>\n            <span>Bill Total Amount: {{ bill.amount | currency:'USD' }}</span>\n          </div>\n          <div >\n            <span>Bill Split Amount: {{ bill.split_amount | currency: 'USD' }}</span>\n          </div>\n        </div>\n      </a>\n    </div>\n  ",
             styles: ["\n    :host {\n      flex: 1;\n    }\n    .bill-details {\n      display: flex;\n      flex: 1 1 100%;\n      margin: 5px 0;\n    }\n    .bill-details > a {\n      text-decoration: none;\n      display: flex;\n      background-color: var(--color-gray-light);\n      color: var(--color-gray-dark);\n      justify-content: space-between;\n      padding: 10px;\n      width: 100%;\n    }\n    .bill-details > a:hover {\n      background-color: rgba(0,0,0,0.25);\n    }\n  "],
         })
     ], BillDetailInlineComponent);
@@ -444,6 +447,179 @@ var BillComponent = (function () {
 
 /***/ }),
 
+/***/ "../../../../../src/app/components/chart.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ChartComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_d3__ = __webpack_require__("../../../../d3/index.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+/*import { Router, ActivatedRoute } from '@angular/router';
+import { animate, keyframes, trigger, transition, style, state } from '@angular/animations';*/
+
+var ChartComponent = (function () {
+    function ChartComponent() {
+        this.chartid = 'default';
+        this.settings = {
+            width: 800,
+            height: 225,
+            margin: 30,
+            radius: 3,
+        };
+        this.values = [];
+        this.x_labels = [];
+        this.y_labels = [];
+        this.scales = {
+            x: undefined,
+            y: undefined,
+        };
+    }
+    ChartComponent.prototype.ngOnInit = function () {
+        if (this.user_settings) {
+            console.log('uesr-settins', this.user_settings);
+        }
+    };
+    ChartComponent.prototype.ngOnChanges = function () {
+        var _this = this;
+        if (this.data) {
+            this.data.forEach(function (v, i) {
+                _this.values.push(v.amount);
+                _this.x_labels.push(v.due_date);
+            });
+            this.drawChart();
+        }
+    };
+    ChartComponent.prototype.ngAfterViewInit = function () {
+        this.createSVG();
+    };
+    ChartComponent.prototype.createSVG = function () {
+        this.svg = __WEBPACK_IMPORTED_MODULE_1_d3__["f" /* select */]("#" + this.chartid)
+            .append('svg')
+            .attr("height", "100%")
+            .attr("width", "100%")
+            .attr("x", 0)
+            .attr("y", 0)
+            .attr("viewBox", "0 0 " + this.settings.width + " " + this.settings.height)
+            .attr("preserveAspectRatio", "none")
+            .append("g")
+            .attr('transform', "translate(" + this.settings.margin + ", 0)");
+    };
+    ChartComponent.prototype.drawChart = function () {
+        this.drawAxis();
+        this.drawLines();
+        this.drawPoints();
+        this.addHoverBar();
+    };
+    ChartComponent.prototype.drawPoints = function () {
+        var _this = this;
+        this.svg.append('g').selectAll('circle')
+            .data(this.values).enter()
+            .append('circle')
+            .attr('class', 'data-point')
+            .attr('r', this.settings.radius)
+            .attr('cx', function (d, i) { return _this.scales.x(_this.x_labels[i]) + _this.scales.x.step() / 2; })
+            .attr('cy', function (d) { return _this.scales.y(d); });
+    };
+    ChartComponent.prototype.drawLines = function () {
+        var _this = this;
+        this.svg.append('g').selectAll('line')
+            .data(this.values.slice(0, this.values.length - 1)).enter()
+            .append('line')
+            .attr('class', 'data-line')
+            .attr('x1', function (d, i) { return _this.scales.x(_this.x_labels[i]) + _this.scales.x.step() / 2; })
+            .attr('y1', function (d) { return _this.scales.y(d); })
+            .attr('x2', function (d, i) { return _this.scales.x(_this.x_labels[i + 1]) + _this.scales.x.step() / 2; })
+            .attr('y2', function (d, i) { return _this.scales.y(_this.values[i + 1]); });
+    };
+    ChartComponent.prototype.drawAxis = function () {
+        this.scales.x = __WEBPACK_IMPORTED_MODULE_1_d3__["d" /* scaleBand */]().domain(this.x_labels)
+            .range([0, (this.settings.width - 2 * this.settings.margin)]);
+        this.scales.y = __WEBPACK_IMPORTED_MODULE_1_d3__["e" /* scaleLinear */]().domain([0, (__WEBPACK_IMPORTED_MODULE_1_d3__["c" /* max */](this.values) * 1.1)]) // multiply by 1.1 for 10% of padding above largest value.
+            .range([(this.settings.height - this.settings.margin), 0]);
+        var x_axis = __WEBPACK_IMPORTED_MODULE_1_d3__["a" /* axisBottom */](this.scales.x)
+            .ticks(this.x_labels.length);
+        var y_axis = __WEBPACK_IMPORTED_MODULE_1_d3__["b" /* axisLeft */](this.scales.y)
+            .ticks(5);
+        this.svg.append('g')
+            .attr('transform', "translate(0, " + (this.settings.height - this.settings.margin) + ")")
+            .attr('class', 'x-axis axis')
+            .call(x_axis);
+        this.svg.append('g')
+            .attr('class', 'y-axis axis')
+            .call(y_axis);
+    };
+    ChartComponent.prototype.addHoverBar = function () {
+        var _this = this;
+        var g = this.svg.append('g').selectAll('g')
+            .data(this.values).enter()
+            .append('g')
+            .attr('class', 'hover-g');
+        // highlight bar over the height of the point.
+        g.append('rect')
+            .attr('class', 'hover-bar')
+            .attr('x', function (d, i) { return _this.scales.x(_this.x_labels[i]) + _this.scales.x.step() / 2 - 10; })
+            .attr('y', function (d) { return _this.scales.y(d) - 10; })
+            .attr('width', 20)
+            .attr('height', function (d, i) { return (_this.settings.height - _this.settings.margin) - _this.scales.y(d) + 10; });
+        // box to 'contain' the y-value of the point
+        g.append('rect')
+            .attr('class', 'hover-value-rect')
+            .attr('x', function (d, i) {
+            var x = _this.scales.x(_this.x_labels[i]) + (_this.scales.x.step() / 2);
+            return x - ((d.toString().length * 10 + 10) + 15);
+        })
+            .attr('y', function (d) { return (_this.settings.height - _this.settings.margin) / 2; })
+            .attr('width', function (d) { return d.toString().length * 10 + 10; })
+            .attr('height', 20);
+        // y-value of the point.
+        g.append('text')
+            .attr('class', 'hover-value')
+            .attr('x', function (d, i) {
+            var x = _this.scales.x(_this.x_labels[i]) + (_this.scales.x.step() / 2);
+            return x - ((d.toString().length * 10) + 5 + 15);
+        })
+            .attr('y', function (d) { return ((_this.settings.height - _this.settings.margin) / 2) + 15; }) // this.scales.y(d) - 20)
+            .text(function (d) { return '$' + d; });
+    };
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["D" /* Input */])(),
+        __metadata("design:type", Array)
+    ], ChartComponent.prototype, "data", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["D" /* Input */])(),
+        __metadata("design:type", String)
+    ], ChartComponent.prototype, "chartid", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["D" /* Input */])(),
+        __metadata("design:type", Object)
+    ], ChartComponent.prototype, "user_settings", void 0);
+    ChartComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
+            moduleId: module.i,
+            selector: 'chart-cmp',
+            template: "\n    <div class=\"chart\" [id]=\"chartid\">\n    </div>\n  ",
+            styles: ["\n    .axis path,\n    .axis line,\n    .axis text {\n      stroke-width: 1px;\n      font-size: 8pt;\n    }\n    .data-point {\n      fill: #4caf50;\n    }\n    .data-line {\n      stroke: black;\n    }\n    .hover-g {\n      fill-opacity: 0;\n      stroke-opacity: 0;\n    }\n    .hover-bar {\n      fill: var(--color-gray-dark);\n      stroke: var(--color-gray-dark);\n    }\n    .hover-value-rect {\n      fill: var(--color-gray-dark);\n    }\n    .hover-value {\n      fill: black;\n      font: 10pt mono;\n    }\n    .hover-g:hover .hover-bar,\n    .hover-g:hover .hover-value-rect {\n      stroke-opacity: 0.75;\n      fill-opacity: 0.25;\n    }\n    .hover-g:hover .hover-value {\n      fill-opacity: 1;\n    }\n  "],
+            encapsulation: __WEBPACK_IMPORTED_MODULE_0__angular_core__["_11" /* ViewEncapsulation */].None,
+        }),
+        __metadata("design:paramtypes", [])
+    ], ChartComponent);
+    return ChartComponent;
+}());
+
+
+
+/***/ }),
+
 /***/ "../../../../../src/app/components/date-picker.component.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -678,9 +854,10 @@ var NotFoundComponent = (function () {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return PersonDetailComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__models_person__ = __webpack_require__("../../../../../src/app/models/person.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__services_bill_service__ = __webpack_require__("../../../../../src/app/services/bill.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__services_person_service__ = __webpack_require__("../../../../../src/app/services/person.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_animations__ = __webpack_require__("../../../animations/esm5/animations.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__models_person__ = __webpack_require__("../../../../../src/app/models/person.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__services_bill_service__ = __webpack_require__("../../../../../src/app/services/bill.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__services_person_service__ = __webpack_require__("../../../../../src/app/services/person.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -695,6 +872,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var PersonComponent = (function () {
     function PersonComponent(personService) {
         this.personService = personService;
@@ -702,7 +880,7 @@ var PersonComponent = (function () {
     }
     PersonComponent.prototype.ngOnInit = function () {
         this.getPersons();
-        this.addPersonObj = new __WEBPACK_IMPORTED_MODULE_2__models_person__["a" /* Person */]({ name: '' });
+        this.addPersonObj = new __WEBPACK_IMPORTED_MODULE_3__models_person__["a" /* Person */]({ name: '' });
     };
     PersonComponent.prototype.addPerson = function (name) {
         if (name.length !== 0) {
@@ -733,7 +911,7 @@ var PersonComponent = (function () {
             template: "\n    <div class=\"persons-header\">\n      <h3>Roommates</h3>\n      <div class=\"add-person\">\n        <span *ngIf=\"no_name\" class=\"alert\">\n          No name entered\n        </span>\n        <input #personName type=\"text\" placeholder=\"Person's name\" \n          (keyup.enter)=\"addPerson(personName.value); personName.value=''\">\n        <button (click)=\"addPerson(personName.value); personName.value=''\" >Add Person</button>\n      </div>\n    </div>\n    <div class=\"persons\">\n      <div *ngFor=\"let person of persons\">\n        <a routerLink=\"/persons/{{ person.id }}\">{{ person.name }}</a>\n      </div>\n    </div>\n  ",
             styles: ["\n    :host {\n      width: 100%;\n      flex: 1 1 100%;\n    }\n    .persons-header,\n    .add-person {\n      display: flex;\n      justify-content: space-between;\n      align-items: center;\n    }\n    .persons-header h3 {\n      flex: 2;\n    }\n    .add-person {\n      flex: 3;\n      justify-content: space-evenly;\n    }\n  "],
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_4__services_person_service__["b" /* PersonService */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_5__services_person_service__["b" /* PersonService */]])
     ], PersonComponent);
     return PersonComponent;
 }());
@@ -745,6 +923,7 @@ var PersonDetailComponent = (function () {
         this.personService = personService;
         this.billService = billService;
         this.totalPaid = 0.0;
+        this.showPaidBills = false;
     }
     PersonDetailComponent.prototype.ngOnInit = function () {
         this.id = +this.route.snapshot.paramMap.get('id');
@@ -773,13 +952,27 @@ var PersonDetailComponent = (function () {
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
             moduleId: module.i,
             selector: 'person-detail-cmp',
-            template: "\n    <div class=\"person-details\">\n      <h3>{{ person?.name }}</h3>\n      <span class=\"total-paid right\">\n        <span>Total Paid</span>\n        <span>{{ person?.payments_made | currency:'USD' }}</span>\n      </span>\n    </div>\n    <div class=\"active-bills\" *ngIf=\"unpaid_bills\">\n      <h4>Currently Unpaid Bills</h4>\n      <div *ngFor=\"let bill of unpaid_bills\" class=\"bill-detail\">\n        <bill-detail-inline-cmp [bill]=\"bill\">\n        </bill-detail-inline-cmp>\n      </div>\n    </div>\n    <div class=\"paid-bills\" *ngIf=\"paid_bills\">\n      <span>\n        <h4>Paid Bills</h4>\n        <span class=\"chevron-up\"></span>\n      </span>\n      <div *ngFor=\"let bill of paid_bills\" class=\"bill-detail\">\n        <bill-detail-inline-cmp [bill]=\"bill\">\n        </bill-detail-inline-cmp>\n      </div>\n    </div>\n  ",
-            styles: ["\n    .person-details {\n      display: flex;\n      align-items: center;\n      justify-content: space-between;\n    }\n  "]
+            template: "\n    <div class=\"person-details\">\n      <h3>{{ person?.name }}</h3>\n      <span class=\"total-paid right\">\n        <span>Total Paid</span>\n        <span>{{ person?.payments_made | currency:'USD' }}</span>\n      </span>\n    </div>\n    <div class=\"active-bills\" *ngIf=\"unpaid_bills\">\n      <h4>Currently Unpaid Bills</h4>\n      <div *ngFor=\"let bill of unpaid_bills\" class=\"bill-detail\">\n        <bill-detail-inline-cmp [bill]=\"bill\">\n        </bill-detail-inline-cmp>\n      </div>\n    </div>\n    <div class=\"paid-bills\" (click)=\"showPaidBills = !showPaidBills\">\n      <span class=\"label\">\n        <h4>Paid Bills</h4>\n        <span [class]=\"showPaidBills ? 'chevron up' : 'chevron'\"></span>\n      </span>\n      <div *ngIf=\"showPaidBills\" @animateBills>\n        <div *ngFor=\"let bill of paid_bills\" class=\"bill-detail\">\n          <bill-detail-inline-cmp [bill]=\"bill\">\n          </bill-detail-inline-cmp>\n        </div>\n      </div>\n    </div>\n  ",
+            styles: [],
+            animations: [
+                Object(__WEBPACK_IMPORTED_MODULE_2__angular_animations__["j" /* trigger */])('animateBills', [
+                    Object(__WEBPACK_IMPORTED_MODULE_2__angular_animations__["g" /* state */])('*', Object(__WEBPACK_IMPORTED_MODULE_2__angular_animations__["h" /* style */])({ opacity: 1, transform: 'translateY(0)' })),
+                    Object(__WEBPACK_IMPORTED_MODULE_2__angular_animations__["i" /* transition */])('void => *', [
+                        Object(__WEBPACK_IMPORTED_MODULE_2__angular_animations__["h" /* style */])({ opacity: 0, transform: 'translateY(-15%)' }),
+                        Object(__WEBPACK_IMPORTED_MODULE_2__angular_animations__["e" /* animate */])('0.5s ease-in')
+                    ]),
+                    Object(__WEBPACK_IMPORTED_MODULE_2__angular_animations__["g" /* state */])('void', Object(__WEBPACK_IMPORTED_MODULE_2__angular_animations__["h" /* style */])({ opacity: 0, transform: 'translateY(-25%)' })),
+                    Object(__WEBPACK_IMPORTED_MODULE_2__angular_animations__["i" /* transition */])('* => void', [
+                        Object(__WEBPACK_IMPORTED_MODULE_2__angular_animations__["h" /* style */])({ opacity: 1, transform: 'translateY(0)' }),
+                        Object(__WEBPACK_IMPORTED_MODULE_2__angular_animations__["e" /* animate */])('0.5s ease-out')
+                    ])
+                ])
+            ]
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */],
             __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */],
-            __WEBPACK_IMPORTED_MODULE_4__services_person_service__["b" /* PersonService */],
-            __WEBPACK_IMPORTED_MODULE_3__services_bill_service__["a" /* BillService */]])
+            __WEBPACK_IMPORTED_MODULE_5__services_person_service__["b" /* PersonService */],
+            __WEBPACK_IMPORTED_MODULE_4__services_bill_service__["a" /* BillService */]])
     ], PersonDetailComponent);
     return PersonDetailComponent;
 }());
@@ -796,9 +989,10 @@ var PersonDetailComponent = (function () {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return UtilityDetailComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__services_bill_service__ = __webpack_require__("../../../../../src/app/services/bill.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__models_utility__ = __webpack_require__("../../../../../src/app/models/utility.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__services_utility_service__ = __webpack_require__("../../../../../src/app/services/utility.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_animations__ = __webpack_require__("../../../animations/esm5/animations.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__services_bill_service__ = __webpack_require__("../../../../../src/app/services/bill.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__models_utility__ = __webpack_require__("../../../../../src/app/models/utility.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__services_utility_service__ = __webpack_require__("../../../../../src/app/services/utility.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -813,6 +1007,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var UtilityComponent = (function () {
     function UtilityComponent(utilityService) {
         this.utilityService = utilityService;
@@ -820,7 +1015,7 @@ var UtilityComponent = (function () {
     }
     UtilityComponent.prototype.ngOnInit = function () {
         this.getUtilities();
-        this.addUtilityObj = new __WEBPACK_IMPORTED_MODULE_3__models_utility__["a" /* Utility */]({ name: '' });
+        this.addUtilityObj = new __WEBPACK_IMPORTED_MODULE_4__models_utility__["a" /* Utility */]({ name: '' });
     };
     UtilityComponent.prototype.addUtility = function (name) {
         if (name.length !== 0) {
@@ -848,10 +1043,10 @@ var UtilityComponent = (function () {
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
             moduleId: module.i,
             selector: 'utility-cmp',
-            template: "\n    <div class=\"utilities-header\">\n      <h3>Utility</h3>\n      <div class=\"add-utility\">\n        <span *ngIf=\"no_name\" class=\"alert\">\n          No name entered\n        </span>\n        <input #utilityName type=\"text\" placeholder=\"Utility\"\n          (keyup.enter)=\"addUtility(utilityName.value); utilityName.value=''\">\n        <button (click)=\"addUtility(utilityName.value); utilityName.value=''\" >Add Utility</button>\n      </div>\n    </div>\n    <div class=\"utilities\">\n      <div *ngFor=\"let utility of utilities\">\n        <a routerLink=\"/utilities/{{ utility.id }}\">{{ utility.name }}</a>\n      </div>\n    </div>\n\n  ",
+            template: "\n    <div class=\"utilities-header\">\n      <h3>Utility</h3>\n      <div class=\"add-utility\">\n        <span *ngIf=\"no_name\" class=\"alert\">\n          No name entered\n        </span>\n        <input #utilityName type=\"text\" placeholder=\"Utility\"\n          (keyup.enter)=\"addUtility(utilityName.value); utilityName.value=''\">\n        <button (click)=\"addUtility(utilityName.value); utilityName.value=''\" >Add Utility</button>\n      </div>\n    </div>\n    <div class=\"utilities\">\n      <div *ngFor=\"let utility of utilities\">\n        <a routerLink=\"/utilities/{{ utility.id }}\">{{ utility.name }}</a>\n      </div>\n    </div>\n  ",
             styles: ["\n    :host {\n      width: 100%;\n      flex: 1 1 100%;\n    }\n    .utilities-header,\n    .add-utility {\n      display: flex;\n      justify-content: space-between;\n      align-items: center;\n    }\n    .utilities-header h3 {\n      flex: 2;\n    }\n    .add-utility {\n      flex: 3;\n      justify-content: space-evenly;\n    }\n  "],
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_4__services_utility_service__["b" /* UtilityService */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_5__services_utility_service__["b" /* UtilityService */]])
     ], UtilityComponent);
     return UtilityComponent;
 }());
@@ -862,15 +1057,16 @@ var UtilityDetailComponent = (function () {
         this.router = router;
         this.utilityService = utilityService;
         this.billService = billService;
+        this.showPaidBills = false;
     }
     UtilityDetailComponent.prototype.ngOnInit = function () {
+        this.id = +this.route.snapshot.paramMap.get('id');
         this.getUtility();
         this.getBills();
     };
     UtilityDetailComponent.prototype.getUtility = function () {
         var _this = this;
-        var id = +this.route.snapshot.paramMap.get('id');
-        this.utilityService.getUtility(id).then(function (res) {
+        this.utilityService.getUtility(this.id).then(function (res) {
             if (res.status_code === 404) {
                 _this.router.navigate(['/404']);
             }
@@ -880,20 +1076,35 @@ var UtilityDetailComponent = (function () {
     UtilityDetailComponent.prototype.getBills = function () {
         var _this = this;
         this.billService.getBills().then(function (response) {
-            _this.unpaid_bills = response.filter(function (v) { return (v.id === _this.utility.id && !v.paid_full); });
+            _this.unpaid_bills = response.filter(function (v) { return (v.paid_to.id === _this.id && !v.paid_full); });
+            _this.paid_bills = response.filter(function (v) { return (v.paid_to.id === _this.id && v.paid_full); });
         });
     };
     UtilityDetailComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
             moduleId: module.i,
             selector: 'utility-detail-cmp',
-            template: "\n    <div class=\"utility-details\">\n      <h2>{{ utility?.name }}</h2>\n      <span>\n        <span class=\"label\">Total Payments</span>\n        <span class=\"value\">{{ utility?.payments | currency: 'USD' }}</span>\n      </span>\n    </div>\n    <div class=\"active-bills\">\n      <h3>Currently Unpaid Bills</h3>\n      <div *ngFor=\"let bill of unpaid_bills\" class=\"bill-detail\">\n        <bill-detail-inline-cmp [bill]=\"bill\">\n        </bill-detail-inline-cmp>\n      </div>\n    </div>\n  ",
+            template: "\n    <div class=\"utility-details\">\n      <h2>{{ utility?.name }}</h2>\n      <span class=\"right\">\n        <span class=\"label\">Total Payments</span>\n        <span class=\"value\">{{ utility?.payments | currency: 'USD' }}</span>\n      </span>\n    </div>\n    <div class=\"payment-graph\">\n      <h4>Bill History</h4>\n      <div>\n        <chart-cmp [data]=\"paid_bills\" chartid=\"utilitychart\">\n        </chart-cmp>\n      </div>\n    </div>\n    <div class=\"active-bills\">\n      <h3>Currently Unpaid Bills</h3>\n      <div *ngFor=\"let bill of unpaid_bills\" class=\"bill-detail\">\n        <bill-detail-inline-cmp [bill]=\"bill\">\n        </bill-detail-inline-cmp>\n      </div>\n    </div>\n    <div class=\"paid-bills\" (click)=\"showPaidBills = !showPaidBills\">\n      <span class=\"label\">\n        <h3>Paid Bills</h3>\n        <span [class]=\"showPaidBills ? 'chevron up': 'chevron'\"></span>\n      </span>\n      <div *ngIf=\"showPaidBills\" @animateBills>\n        <div *ngFor=\"let bill of paid_bills\" class=\"bill-detail\">\n          <bill-detail-inline-cmp [bill]=\"bill\">\n          </bill-detail-inline-cmp>\n        </div>\n      </div>\n    </div>\n  ",
             styles: ["\n    :host {\n      width: 100%;\n    }\n  "],
+            animations: [
+                Object(__WEBPACK_IMPORTED_MODULE_2__angular_animations__["j" /* trigger */])('animateBills', [
+                    Object(__WEBPACK_IMPORTED_MODULE_2__angular_animations__["g" /* state */])('*', Object(__WEBPACK_IMPORTED_MODULE_2__angular_animations__["h" /* style */])({ opacity: 1, transform: 'translateY(0)' })),
+                    Object(__WEBPACK_IMPORTED_MODULE_2__angular_animations__["i" /* transition */])('void => *', [
+                        Object(__WEBPACK_IMPORTED_MODULE_2__angular_animations__["h" /* style */])({ opacity: 0, transform: 'translateY(-15%)' }),
+                        Object(__WEBPACK_IMPORTED_MODULE_2__angular_animations__["e" /* animate */])('0.5s ease-in')
+                    ]),
+                    Object(__WEBPACK_IMPORTED_MODULE_2__angular_animations__["g" /* state */])('void', Object(__WEBPACK_IMPORTED_MODULE_2__angular_animations__["h" /* style */])({ opacity: 0, transform: 'translateY(-25%)' })),
+                    Object(__WEBPACK_IMPORTED_MODULE_2__angular_animations__["i" /* transition */])('* => void', [
+                        Object(__WEBPACK_IMPORTED_MODULE_2__angular_animations__["h" /* style */])({ opacity: 1, transform: 'translateY(0)' }),
+                        Object(__WEBPACK_IMPORTED_MODULE_2__angular_animations__["e" /* animate */])('0.5s ease-out')
+                    ])
+                ])
+            ]
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */],
             __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */],
-            __WEBPACK_IMPORTED_MODULE_4__services_utility_service__["b" /* UtilityService */],
-            __WEBPACK_IMPORTED_MODULE_2__services_bill_service__["a" /* BillService */]])
+            __WEBPACK_IMPORTED_MODULE_5__services_utility_service__["b" /* UtilityService */],
+            __WEBPACK_IMPORTED_MODULE_3__services_bill_service__["a" /* BillService */]])
     ], UtilityDetailComponent);
     return UtilityDetailComponent;
 }());
@@ -988,12 +1199,14 @@ var Utility = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__services_person_service__ = __webpack_require__("../../../../../src/app/services/person.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__routes_bill_routing_module__ = __webpack_require__("../../../../../src/app/routes/bill-routing.module.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__components_date_picker_component__ = __webpack_require__("../../../../../src/app/components/date-picker.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__components_chart_component__ = __webpack_require__("../../../../../src/app/components/chart.component.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -1027,6 +1240,7 @@ var BillModule = (function () {
                 __WEBPACK_IMPORTED_MODULE_7__components_person_component__["a" /* PersonComponent */],
                 __WEBPACK_IMPORTED_MODULE_7__components_person_component__["b" /* PersonDetailComponent */],
                 __WEBPACK_IMPORTED_MODULE_12__components_date_picker_component__["a" /* DatePicker */],
+                __WEBPACK_IMPORTED_MODULE_13__components_chart_component__["a" /* ChartComponent */],
             ],
             providers: [
                 __WEBPACK_IMPORTED_MODULE_8__services_bill_service__["a" /* BillService */],
@@ -1344,6 +1558,61 @@ var persons = [
     new __WEBPACK_IMPORTED_MODULE_0__models_person__["a" /* Person */]({ name: "Roommate 3", id: 3, payments_made: 16.67 }),
 ];
 var bills = [
+    new __WEBPACK_IMPORTED_MODULE_2__models_bill__["a" /* Bill */]({
+        id: 6,
+        due_date: "9/27/2017",
+        amount: 173.34,
+        paid_to: utilities[1],
+        split_by: persons,
+        paid_full: true,
+        paid_partial: persons,
+        paid_date: "9/23/2017",
+        notes: "This is an internet bill",
+    }),
+    new __WEBPACK_IMPORTED_MODULE_2__models_bill__["a" /* Bill */]({
+        id: 7,
+        due_date: "11/27/2017",
+        amount: 157.62,
+        paid_to: utilities[1],
+        split_by: persons,
+        paid_full: true,
+        paid_partial: persons,
+        paid_date: "10/20/2017",
+        notes: "This is an internet bill",
+    }),
+    new __WEBPACK_IMPORTED_MODULE_2__models_bill__["a" /* Bill */]({
+        id: 8,
+        due_date: "11/23/2017",
+        amount: 193.24,
+        paid_to: utilities[1],
+        split_by: persons,
+        paid_full: true,
+        paid_partial: persons,
+        paid_date: "11/21/2017",
+        notes: "This is an internet bill",
+    }),
+    new __WEBPACK_IMPORTED_MODULE_2__models_bill__["a" /* Bill */]({
+        id: 9,
+        due_date: "12/28/2017",
+        amount: 138,
+        paid_to: utilities[1],
+        split_by: persons,
+        paid_full: true,
+        paid_partial: persons,
+        paid_date: "12/24/2017",
+        notes: "This is an internet bill",
+    }),
+    new __WEBPACK_IMPORTED_MODULE_2__models_bill__["a" /* Bill */]({
+        id: 10,
+        due_date: "1/27/2018",
+        amount: 153,
+        paid_to: utilities[1],
+        split_by: persons,
+        paid_full: true,
+        paid_partial: persons,
+        paid_date: "1/26/2018",
+        notes: "This is an internet bill",
+    }),
     new __WEBPACK_IMPORTED_MODULE_2__models_bill__["a" /* Bill */]({
         id: 1,
         due_date: "2/27/2018",
